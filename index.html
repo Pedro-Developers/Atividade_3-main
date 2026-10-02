@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+   <h1>Lanchonete do seu Alfredo</h1>
+   
+   <h3>Escolha o lanche desejado:</h3>
+
+   <ul>
+    <li>1- Sanduiche</li>
+    <li>2- Água</li>
+    <li>3- Refrigerante</li>
+    <li>4- Suco</li>
+   </ul>    0-Sair
+   
+   Pagamento: Pix, Cartão, Dinheiro
+   <br>
+
+   <footer>
+     <p>&copy; 2023 Lanchonete do seu Alfredo. Todos os direitos reservados.</p>
+   </footer>
+   <script>const saida = document.getElementById("saida");
+ 
+// ---------- Utilitários ----------
+function log(texto = "") {
+  saida.textContent += texto + "\n";
+}
+ 
+function perguntar(mensagem) {
+  const resposta = prompt(mensagem);
+  if (resposta === null) throw new Error("cancelado"); // usuário clicou em Cancelar
+  return resposta;
+}
+ 
+function numero(mensagem) {
+  return Number(perguntar(mensagem).replace(",", "."));
+}
+ 
+function reais(valor) {
+  return valor.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+}
+ 
+// ---------- Lanchonete ----------
+function lanchonete() {
+  log("=== SISTEMA DA LANCHONETE ===");
+ 
+  // 1. Senha - do...while
+  let senha;
+  do {
+    senha = perguntar("Digite a senha:");
+    if (senha !== "1234") {
+      log("Senha incorreta!");
+    }
+  } while (senha !== "1234");
+  log("Acesso permitido!\n");
+ 
+  const menu =
+    "1 - Hambúrguer - R$ 15,00\n" +
+    "2 - Pizza - R$ 20,00\n" +
+    "3 - Refrigerante - R$ 6,00\n" +
+    "4 - Batata Frita - R$ 10,00\n" +
+    "0 - Finalizar";
+  log(menu + "\n");
+ 
+  let subtotal = 0;
+  let quantidade = 0;
+  let opcao = -1;
+ 
+  // 4. Pedidos - while (continua enquanto não escolher 0)
+  while (opcao !== 0) {
+    const entrada = perguntar(menu + "\n\nEscolha:");
+    opcao = entrada.trim() === "" ? NaN : Number(entrada);
+    log("Escolha: " + entrada);
+ 
+    // 5. Finalização - break
+    if (opcao === 0) {
+      break;
+    }
+ 
+    let nome;
+    let preco;
+ 
+    // 2. Menu - switch
+    switch (opcao) {
+      case 1:
+        nome = "Hambúrguer";
+        preco = 15.0;
+        break;
+      case 2:
+        nome = "Pizza";
+        preco = 20.0;
+        break;
+      case 3:
+        nome = "Refrigerante";
+        preco = 6.0;
+        break;
+      case 4:
+        nome = "Batata Frita";
+        preco = 10.0;
+        break;
+      default:
+        // 3. Validação - continue
+        log("Opção inválida!");
+        continue;
+    }
+ 
+    subtotal += preco;
+    quantidade++;
+    log(nome + " adicionado!");
+  }
+ 
+  // 6. Quantidade - for
+  log();
+  for (let i = 1; i <= quantidade; i++) {
+    log("Produto " + i + " registrado");
+  }
+ 
+  // 7. Desconto - operador ternário
+  const desconto = subtotal >= 50 ? subtotal * 0.1 : 0;
+  const total = subtotal - desconto;
+ 
+  log();
+  log("Subtotal: " + reais(subtotal));
+  log("Desconto: " + reais(desconto));
+  log("Total: " + reais(total));
+}
+  </script>
+</body>
+</html>
